@@ -1,0 +1,99 @@
+# ============================================================
+#  GitHub Metrics + Isometric Calendar + Snake Animation
+#  Place this file at: .github/workflows/metrics.yml
+# ============================================================
+#
+#  BEFORE RUNNING — you need a Personal Access Token (PAT):
+#
+#  1. Go to: https://github.com/settings/tokens/new
+#  2. Name it something like "metrics-token"
+#  3. Select scopes: (no scopes needed for public repos,
+#     but tick "repo" if you want private contribution counts)
+#  4. Generate → copy the token
+#  5. Go to your profile repo → Settings → Secrets and variables
+#     → Actions → New repository secret
+#  6. Name: METRICS_TOKEN    Value: <paste your token>
+#
+#  Also make sure:
+#  Repo Settings → Actions → General → Workflow permissions
+#  → "Read and write permissions" is selected
+# ============================================================
+
+name: Metrics
+
+on:
+  schedule:
+    - cron: "0 0 * * *"       # runs daily at midnight UTC
+  workflow_dispatch:            # allows manual trigger
+
+jobs:
+
+  # ── Job 1: GitHub Metrics + Isometric Calendar ──────────────
+  github-metrics:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    permissions:
+      contents: write
+    steps:
+
+      # Base GitHub stats (replaces github-readme-stats card)
+      - name: Generate GitHub Metrics
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: github-metrics.svg
+          user: PrakritTyagi123
+          template: classic
+          base: header, activity, community, repositories
+          base_indepth: yes
+          config_timezone: Asia/Kolkata
+          plugin_languages: yes
+          plugin_languages_analysis_timeout: 15
+          plugin_languages_categories: markup, programming
+          plugin_languages_colors: github
+          plugin_languages_limit: 8
+          plugin_languages_recent_categories: markup, programming
+          plugin_languages_recent_days: 14
+          plugin_languages_recent_load: 300
+          plugin_languages_sections: most-used
+          plugin_languages_threshold: 0%
+
+      # Isometric commit calendar (full year)
+      - name: Generate Isometric Calendar
+        uses: lowlighter/metrics@latest
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics-isocalendar.svg
+          user: PrakritTyagi123
+          template: classic
+          base: ""
+          config_timezone: Asia/Kolkata
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
+
+  # ── Job 2: Contribution Snake ───────────────────────────────
+  snake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate Snake SVGs
+        uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: PrakritTyagi123
+          outputs: |
+            dist/github-snake.svg
+            dist/github-snake-dark.svg?palette=github-dark
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy to output branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: output
+          commit_message: "Update snake animation [skip ci]"
