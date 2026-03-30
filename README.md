@@ -13,13 +13,12 @@
 
 ### 🧑‍💻 About Me
 
-B.Tech CS grad from Amity University who loves building things end-to-end — from scalable web backends to real-time game systems to RL agents that learn to play Snake. Currently shipping an indie action-survival title in Unity while freelancing as a full-stack developer.
+B.Tech CS grad who loves building things end-to-end — from scalable web backends to real-time game systems to RL agents that learn to play Snake. Currently shipping an indie action-survival title in Unity while freelancing as a full-stack developer.
 
 - 🎮 **Building:** An indie action-survival game — combat AI, inventory/crafting, save/load, the whole pipeline
 - 🔬 **Published:** Research on deep learning + multi-view geometry for object detection *(JISEM, 2025)*
 - 🏆 **Won:** Best Startup Potential — Technovate 2025
-- 🌍 **Studied across 3 continents:** India · London (Birkbeck) · New Jersey (FDU)
-- 🏢 **Visited:** Google, NASA, Barclays cybersecurity labs
+- 🌍 **Studied across 3 continents:** India · London · New Jersey
 
 ---
 
@@ -72,24 +71,12 @@ B.Tech CS grad from Amity University who loves building things end-to-end — fr
     <td width="50%" valign="top">
       <h3>💬 WhatsApp Itinerary Bot</h3>
       <p><strong>Node.js · Twilio API · LLM/Groq · MySQL</strong></p>
-      <p>Built during internship at ULAVI Technologies (Singapore). LLM-powered travel itinerary bot on WhatsApp with Twilio integration, MySQL backend, and ngrok for secure local testing.</p>
+      <p>Built at ULAVI Technologies (Singapore). LLM-powered travel itinerary bot on WhatsApp with Twilio integration, MySQL backend, and ngrok for secure local testing.</p>
     </td>
   </tr>
 </table>
 
 > 📂 **More projects →** [github.com/PrakritTyagi123?tab=repositories](https://github.com/PrakritTyagi123?tab=repositories)
-
----
-
-### 💼 Experience
-
-| Role | Company | Period |
-|------|---------|--------|
-| 🎮 Indie Game Developer | Self-Employed | Aug 2024 – Present |
-| 🌐 Full-Stack Developer Intern | ULAVI Technologies (Singapore) | Jun – Aug 2024 |
-| 🔒 Global Industry Immersion | Cybersecurity Focus (USA & UK) | Jan – Jun 2024 |
-| 🎮 Game Developer Intern | Khiladi Adda, Noida | Jan – Apr 2023 |
-| 🖥️ Backend Engineer (Game Servers) | Self-Employed | Sep 2020 – Feb 2022 |
 
 ---
 
@@ -121,7 +108,7 @@ B.Tech CS grad from Amity University who loves building things end-to-end — fr
 
 ### 🐍 Contribution Snake
 
-<!-- To activate this, set up the GitHub Action described at the bottom of this file. -->
+<!-- To activate this, set up the GitHub Action — see snake.yml file -->
 
 <p align="center">
   <picture>
@@ -133,69 +120,6 @@ B.Tech CS grad from Amity University who loves building things end-to-end — fr
 
 ---
 
-### 📜 Certifications & Publications
-
-🏅 **CCNAv7: Intro to Networks** (Cisco) · **Unreal Engine 4** · **Ethical Hacking** · **Adobe Photoshop**
-
-📄 **Research Paper:** *"Fusion of Deep Learning and Multi-View Geometry for Robust Object Detection in Distributed Camera"* — JISEM, Vol. 10 No. 58s (2025)
-
----
-
 <p align="center">
   <img src="https://capsule-render.vercel.app/api?type=waving&color=6C63FF&height=80&section=footer" width="100%" />
 </p>
-
-<!--
-╔══════════════════════════════════════════════════════════════════════╗
-║              🐍 SNAKE ANIMATION SETUP GUIDE                        ║
-╠══════════════════════════════════════════════════════════════════════╣
-║                                                                      ║
-║  1. Make sure you have a repo named "PrakritTyagi123"               ║
-║     (same as your username). This is your profile repo.              ║
-║                                                                      ║
-║  2. Go to repo Settings → Actions → General                         ║
-║     Under "Workflow permissions", select:                            ║
-║     ✅ Read and write permissions                                    ║
-║                                                                      ║
-║  3. Create the file:                                                 ║
-║     .github/workflows/snake.yml                                      ║
-║     Paste the YAML below into it:                                    ║
-║                                                                      ║
-║  name: Generate Snake                                                ║
-║                                                                      ║
-║  on:                                                                 ║
-║    schedule:                                                         ║
-║      - cron: "0 0 * * *"                                            ║
-║    workflow_dispatch:                                                 ║
-║                                                                      ║
-║  jobs:                                                               ║
-║    generate:                                                         ║
-║      runs-on: ubuntu-latest                                          ║
-║      timeout-minutes: 10                                             ║
-║      steps:                                                          ║
-║        - name: Checkout                                              ║
-║          uses: actions/checkout@v4                                    ║
-║                                                                      ║
-║        - name: Generate Snake SVGs                                   ║
-║          uses: Platane/snk/svg-only@v3                               ║
-║          with:                                                       ║
-║            github_user_name: PrakritTyagi123                         ║
-║            outputs: |                                                ║
-║              dist/github-snake.svg                                   ║
-║              dist/github-snake-dark.svg?palette=github-dark          ║
-║          env:                                                        ║
-║            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}                 ║
-║                                                                      ║
-║        - name: Deploy to output branch                               ║
-║          uses: peaceiris/actions-gh-pages@v3                         ║
-║          with:                                                       ║
-║            github_token: ${{ secrets.GITHUB_TOKEN }}                 ║
-║            publish_dir: ./dist                                       ║
-║            publish_branch: output                                    ║
-║            commit_message: "Update snake [skip ci]"                  ║
-║                                                                      ║
-║  4. Commit → go to Actions tab → "Generate Snake" → Run workflow    ║
-║  5. Once it runs, the snake appears automatically!                   ║
-║                                                                      ║
-╚══════════════════════════════════════════════════════════════════════╝
--->
