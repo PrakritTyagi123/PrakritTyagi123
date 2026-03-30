@@ -1,5 +1,5 @@
 # ============================================================
-#  GitHub Metrics + Isometric Calendar + Terminal GIF + Snake
+#  GitHub Metrics + Isometric Calendar + World Map + Snake
 #  Place this file at: .github/workflows/metrics.yml
 # ============================================================
 
@@ -12,7 +12,7 @@ on:
 
 jobs:
 
-  # ── Job 1: GitHub Metrics + Isometric Calendar ──────────────
+  # ── Job 1: GitHub Metrics + Isometric Calendar + World Map ──
   github-metrics:
     runs-on: ubuntu-latest
     environment:
@@ -21,6 +21,7 @@ jobs:
       contents: write
     steps:
 
+      # Base GitHub stats + languages
       - name: Generate GitHub Metrics
         uses: lowlighter/metrics@latest
         with:
@@ -42,6 +43,7 @@ jobs:
           plugin_languages_sections: most-used
           plugin_languages_threshold: 0%
 
+      # Isometric commit calendar (full year)
       - name: Generate Isometric Calendar
         uses: lowlighter/metrics@latest
         with:
@@ -54,102 +56,22 @@ jobs:
           plugin_isocalendar: yes
           plugin_isocalendar_duration: full-year
 
-  # ── Job 2: Retro Terminal GIF ───────────────────────────────
-  terminal:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      # World map showing stargazers / work locations
+      - name: Generate World Map
+        uses: lowlighter/metrics@latest
         with:
-          python-version: "3.11"
+          token: ${{ secrets.METRICS_TOKEN }}
+          filename: metrics-worldmap.svg
+          user: PrakritTyagi123
+          template: classic
+          base: ""
+          config_timezone: Asia/Kolkata
+          plugin_stargazers: yes
+          plugin_stargazers_charts_type: graph
+          plugin_stargazers_worldmap: yes
+          plugin_stargazers_worldmap_sample: 0
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update && sudo apt-get install -y ffmpeg
-          pip install github-readme-terminal requests python-dotenv
-
-      - name: Generate terminal GIF
-        env:
-          GITHUB_TOKEN: ${{ secrets.METRICS_TOKEN }}
-        run: |
-          cat > config.toml << 'TOML'
-          [github]
-          username = "PrakritTyagi123"
-
-          [terminal]
-          font_size = 14
-          width = 80
-          height = 24
-          theme = "dracula"
-          show_header = true
-          title = "prakrit@dev"
-
-          [output]
-          file = "terminal.gif"
-          TOML
-
-          cat > generate.py << 'PYTHON'
-          import requests
-          import json
-          import os
-          import subprocess
-
-          token = os.environ.get("GITHUB_TOKEN", "")
-          headers = {"Authorization": f"token {token}"} if token else {}
-
-          # Fetch GitHub user data
-          user = requests.get("https://api.github.com/users/PrakritTyagi123", headers=headers).json()
-
-          name = user.get("name", "Prakrit Tyagi")
-          repos = user.get("public_repos", 0)
-          followers = user.get("followers", 0)
-          following = user.get("following", 0)
-
-          # Fetch top languages
-          repos_data = requests.get("https://api.github.com/users/PrakritTyagi123/repos?per_page=30&sort=updated", headers=headers).json()
-          lang_count = {}
-          for r in repos_data:
-              lang = r.get("language")
-              if lang:
-                  lang_count[lang] = lang_count.get(lang, 0) + 1
-          top_langs = sorted(lang_count, key=lang_count.get, reverse=True)[:5]
-
-          print(f"Name: {name}")
-          print(f"Repos: {repos}, Followers: {followers}")
-          print(f"Top langs: {top_langs}")
-
-          # Try using github-readme-terminal if available
-          try:
-              from github_readme_terminal import generate
-              generate.main()
-              print("Generated using github-readme-terminal")
-          except Exception as e:
-              print(f"Falling back to simple generation: {e}")
-              # Simple fallback - create a static badge-style image
-              # The terminal GIF will be generated on next successful run
-              pass
-          PYTHON
-
-          python generate.py || echo "Terminal GIF generation skipped"
-
-      - name: Commit terminal GIF
-        run: |
-          if [ -f terminal.gif ]; then
-            git config --global user.name "github-actions[bot]"
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git add terminal.gif
-            git diff --cached --quiet || git commit -m "Update terminal GIF [skip ci]"
-            git push
-          else
-            echo "No terminal.gif generated, skipping commit"
-          fi
-
-  # ── Job 3: Contribution Snake ───────────────────────────────
+  # ── Job 2: Contribution Snake ───────────────────────────────
   snake:
     runs-on: ubuntu-latest
     timeout-minutes: 10
